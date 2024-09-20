@@ -25,7 +25,6 @@ def main():
                     state = init_container.state
                     if state.waiting and state.waiting.reason == "CreateContainerError":
                         pods_with_failed_init_containers.append(pod_name)
-                        break
 
         if pods_with_failed_init_containers:
             print("  Pods with init containers in 'CreateContainerError' state:")
