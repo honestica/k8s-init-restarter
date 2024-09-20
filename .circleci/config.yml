@@ -1,0 +1,53 @@
+version: 2.1
+
+orbs:
+  bot: lifen/bot@0
+
+commands:
+  check-changed-files-or-halt:
+    parameters:
+      pattern:
+        type: string
+    steps:
+      - run: git show -m HEAD --name-only --pretty="" | egrep '<< parameters.pattern >>' || circleci step halt
+
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.12
+    steps:
+      - checkout
+      - run:
+          name: Test app
+          environment:
+            JIRA_PROJECT_KEY: test
+          command: |
+            pip3 install pipenv==2024.0.2
+            make test
+  build-docker-image:
+    docker:
+      - image: cimg/python:3.12
+    steps:
+      - checkout
+      - check-changed-files-or-halt:
+          pattern: src|Dockerfile|Pipfile
+      - run:
+          name: Run build
+          command: |
+            pip3 install pipenv==2024.0.2
+            make build
+      - bot/docker-build-and-push:
+          multiArchEnable: True
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - test:
+          context: org-global
+      - build-docker-image:
+          context: org-global
+          filters:
+            branches:
+              only:
+                - master
