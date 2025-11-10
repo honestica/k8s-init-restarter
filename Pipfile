@@ -7,6 +7,6 @@ name = "pypi"
 kubernetes = "~=34.1"
 
 [dev-packages]
-black = "~=25.9"
+black = "~=25.11"
 flake8 = "~=7.3"
 isort = "~=6.0"
