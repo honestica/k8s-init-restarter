@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-kubernetes = "~=35.0"
+kubernetes = "~=36.0"
 
 [dev-packages]
 black = "~=26.5"
