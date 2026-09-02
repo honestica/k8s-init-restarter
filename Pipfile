@@ -9,4 +9,4 @@ kubernetes = "~=36.0"
 [dev-packages]
 black = "~=26.5"
 flake8 = "~=7.3"
-isort = "~=8.0"
+isort = "~=9.0"
